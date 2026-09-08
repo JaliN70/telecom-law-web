@@ -37,9 +37,41 @@
       .replace(/"/g, '&quot;');
   }
 
+  function isPackagedApp() {
+    return location.protocol === 'file:';
+  }
+
+  function externalLinkAttrs() {
+    return isPackagedApp() ? '' : ' target="_blank" rel="noopener"';
+  }
+
+  function openExternal(url) {
+    if (window.Android && typeof Android.openExternal === 'function') {
+      Android.openExternal(url);
+      return;
+    }
+    window.open(url, '_blank') || (window.location.href = url);
+  }
+
+  function bindExternalLinks(root) {
+    if (!root) return;
+    root.querySelectorAll('a[href^="http"]').forEach((link) => {
+      link.removeAttribute('target');
+      link.addEventListener('click', (e) => {
+        if (!isPackagedApp()) return;
+        e.preventDefault();
+        openExternal(link.href);
+      });
+    });
+  }
+
   function categoryCount(cat) {
-    if (cat.files) return `${ATTACHMENTS.length} 份 PDF`;
+    if (cat.files) return `${ATTACHMENTS.length} 份截圖`;
     return `${cat.articles.length} 項法條`;
+  }
+
+  function attachmentViewUrl(id) {
+    return `attachment-view.html?id=${encodeURIComponent(id)}`;
   }
 
   function renderHome() {
@@ -66,7 +98,7 @@
         <span class="hero-eyebrow">Building Telecom Code</span>
         <h2 class="hero-title">${escapeHtml(LAW.name)}</h2>
         <p class="hero-desc">共 ${CATEGORIES.length - 1} 類 · ${totalArts} 條，依主題分類連結全國法規資料庫</p>
-        <a class="hero-cta" href="${LAW.fullUrl}" target="_blank" rel="noopener">
+        <a class="hero-cta" href="${LAW.fullUrl}"${externalLinkAttrs()}>
           完整法規
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
@@ -78,20 +110,19 @@
     app.querySelectorAll('.cat-card').forEach((btn) => {
       btn.addEventListener('click', () => navigate(`#/${btn.dataset.cat}`));
     });
+    bindExternalLinks(app);
   }
 
   function renderAttachments(cat) {
     const itemsHtml = ATTACHMENTS.map(
       (item, i) => `
       <li class="fade-up" style="animation-delay:${i * 0.025}s">
-        <a class="art-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener"
+        <a class="art-btn" href="${attachmentViewUrl(item.id)}"
            data-label="${escapeHtml(item.label)}">
-          <span class="art-num">PDF</span>
+          <span class="art-num">圖</span>
           <span class="art-label">${escapeHtml(item.label)}</span>
           <svg class="art-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-            <polyline points="15 3 21 3 21 9"/>
-            <line x1="10" y1="14" x2="21" y2="3"/>
+            <path d="M9 18l6-6-6-6"/>
           </svg>
         </a>
       </li>
@@ -105,12 +136,12 @@
         <p class="cat-header-sub">${escapeHtml(cat.subtitle)}</p>
         <p class="cat-header-desc">${escapeHtml(cat.desc)}</p>
       </header>
-      <p class="section-label">官方 PDF · 全國法規資料庫</p>
+      <p class="section-label">離線查閱 · 附圖向量、附件高清</p>
       <ul class="art-list">${itemsHtml}</ul>
     `;
 
     app.querySelectorAll('.art-btn').forEach((link) => {
-      link.addEventListener('click', () => showToast(`下載 ${link.dataset.label}`));
+      link.addEventListener('click', () => showToast(`查看 ${link.dataset.label}`));
     });
   }
 
@@ -135,7 +166,7 @@
       .map(
         (item, i) => `
         <li class="fade-up" style="animation-delay:${i * 0.025}s">
-          <a class="art-btn" href="${mojArticleUrl(item.art)}" target="_blank" rel="noopener"
+          <a class="art-btn" href="${mojArticleUrl(item.art)}"${externalLinkAttrs()}
              data-art="${escapeHtml(item.art)}">
             <span class="art-num">${escapeHtml(formatArticleNum(item.art))}</span>
             <span class="art-label">
@@ -169,6 +200,7 @@
         showToast(`開啟 ${articleDisplayTitle(link.dataset.art)}`);
       });
     });
+    bindExternalLinks(app);
   }
 
   function navigate(hash) {
@@ -193,6 +225,7 @@
 
   backBtn.addEventListener('click', () => navigate('#/'));
   window.addEventListener('hashchange', route);
+  bindExternalLinks(document);
 
   route();
 })();

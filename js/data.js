@@ -8,7 +8,7 @@ const LAW = {
   shortName: '屋內外電信設備規則',
   amended: '民國 104 年 08 月 05 日',
   fullUrl: 'https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=K0060040',
-  updated: '2026/09/03',
+  updated: '2026/09/15',
   author: 'AJ',
 };
 
@@ -18,15 +18,73 @@ function mojArticleUrl(article) {
 }
 
 const ATTACHMENTS = [
-  { label: '附圖一', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234795&lan=C' },
-  { label: '附圖二', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234796&lan=C' },
-  { label: '附圖三', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234797&lan=C' },
-  { label: '附圖四', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234798&lan=C' },
-  { label: '附件一：電信室面積一覽表', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234799&lan=C' },
-  { label: '附件二：洽辦／審查／審驗申請表', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234800&lan=C' },
-  { label: '附件三：洽辦／審查／審驗作業流程圖', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234801&lan=C' },
-  { label: '附件四：電信設備審定證明', url: 'https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234802&lan=C' },
+  {
+    id: "fig1",
+    label: "附圖一",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234795&lan=C",
+    pages: [
+      "assets/attachments/fig1/page-001.svg",
+    ],
+  },
+  {
+    id: "fig2",
+    label: "附圖二",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234796&lan=C",
+    pages: [
+      "assets/attachments/fig2/page-001.svg",
+    ],
+  },
+  {
+    id: "fig3",
+    label: "附圖三",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234797&lan=C",
+    pages: [
+      "assets/attachments/fig3/page-001.svg",
+    ],
+  },
+  {
+    id: "fig4",
+    label: "附圖四",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234798&lan=C",
+    pages: [
+      "assets/attachments/fig4/page-001.svg",
+    ],
+  },
+  {
+    id: "att1",
+    label: "附件一：電信室面積一覽表",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234799&lan=C",
+    pages: [
+      "assets/attachments/att1/page-001.png",
+    ],
+  },
+  {
+    id: "att2",
+    label: "附件二：洽辦／審查／審驗申請表",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234800&lan=C",
+    pages: [
+      "assets/attachments/att2/page-001.png",
+    ],
+  },
+  {
+    id: "att3",
+    label: "附件三：洽辦／審查／審驗作業流程圖",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234801&lan=C",
+    pages: [
+      "assets/attachments/att3/page-001.png",
+    ],
+  },
+  {
+    id: "att4",
+    label: "附件四：電信設備審定證明",
+    mojUrl: "https://law.moj.gov.tw/LawClass/LawGetFile.ashx?FileId=0000234802&lan=C",
+    pages: [
+      "assets/attachments/att4/page-001.png",
+    ],
+  },
 ];
+
+
 
 const CATEGORIES = [
   {
@@ -118,8 +176,8 @@ const CATEGORIES = [
     id: 'attachments',
     icon: '📂',
     title: '附圖與附件',
-    subtitle: 'MOJ 官方 PDF',
-    desc: '第 6、9、11、12 條引用之附圖及附件',
+    subtitle: '離線截圖 · 8 份',
+    desc: '第 6、9、11、12 條引用之附圖及附件（離線 PNG）',
     files: true,
   },
 ];
