@@ -2,3 +2,14 @@
 Thumbs.db
 *.log
 *.class
+scripts/alt-pdf/
+scripts/extracted/
+scripts/ocr-test/
+scripts/source-doc-html/
+scripts/source-doc-pdf/
+scripts/source-doc/
+scripts/source-pdf/
+scripts/tessdata/
+scripts/pdfbox-app-*.jar
+scripts/test-*.png
+scripts/law-*.html
